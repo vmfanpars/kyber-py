@@ -90,6 +90,7 @@ class Kyber:
     @staticmethod
     def _prf(s, b, length):
         """
+        Pseudo Random Function
         PRF: B^32 x B -> B^*
         """
         input_bytes = s + b
@@ -102,6 +103,7 @@ class Kyber:
     @staticmethod
     def _kdf(input_bytes, length):
         """
+        Key Derivation Function
         KDF: B^* -> B^*
         """
         return shake_256(input_bytes).digest(length)
@@ -114,7 +116,7 @@ class Kyber:
         elements = [0 for _ in range(self.k)]
         for i in range(self.k):
             input_bytes = self._prf(sigma, bytes([N]), 64 * eta)
-            elements[i] = self.R.cbd(input_bytes, eta)
+            elements[i] = self.R.cbd(input_bytes, eta) #Centered Binomial Distribution توزیع دوجمله‌ای مرکزی 
             N += 1
         v = self.M.vector(elements)
         return v, N
